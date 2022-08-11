@@ -12,13 +12,12 @@
     "start": "ts-node -r tsconfig-paths/register src/server.ts",
     "start:dev": "concurrently --handle-input \"wait-on dist/server.js && nodemon\" \"tsc -w -p tsconfig.build.json\" ",
     "rebuild": "rimraf dist && npm run build",
-    "prestart:prod": "npm run rebuild",
     "start:prod": "link-module-alias && node dist/server.js",
     "lint": "tslint -p tsconfig.json -c tslint.json",
     "db:seed": "node ./dist/database/seeders/index.js",
     "db:migrate": "npm run rebuild && link-module-alias && sequelize db:migrate",
     "db:reset": "npm run rebuild && link-module-alias && sequelize db:migrate:undo:all",
-    "heroku-postbuild": "npm run db:migrate"
+    "prestart:prod": "npm run db:migrate && npm run db:seed"
   },
   "_moduleAliases": {
     "src": "dist"
