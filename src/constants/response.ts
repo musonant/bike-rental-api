@@ -16,6 +16,11 @@ export const ERROR_CODES = {
     status: 403,
     code: 'AUTH_01'
   },
+  AUTH_02: {
+    message: 'Unauthorized',
+    status: 403,
+    code: 'AUTH_02'
+  },
   POST_01: {
     message: 'Internal Server Error',
     status: 500,

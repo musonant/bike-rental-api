@@ -16,6 +16,7 @@ export default class User extends Model {
   public email!: string;
   public password!: string;
   public status!: Status;
+  public roles: Array<Role>;
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
