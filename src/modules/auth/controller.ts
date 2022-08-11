@@ -10,13 +10,15 @@ import Role, { Roles } from '../roles/model';
 
 export const userSignup = async (req: Request, res: Response) => {
   const newUser = await User.createUser(req.body);
-  const roles = await Role.findAll({ attributes: ['id', 'name']});
-  const userRole = roles.find(item => item.name === Roles.USER);
+  const userRole = await Role.findOne({ 
+    where: { name: Roles.USER },
+    attributes: ['id', 'name']
+  });
   await UserRole.create({ userId: newUser.id, roleId: userRole.id });
 
   const data = {
     ...newUser.toJSON(),
-    roles: [roles.find(item => item.id === userRole.id)]
+    roles: [{ id: userRole.id, name: userRole.name }]
   }
 
   return response.created(res, data);
