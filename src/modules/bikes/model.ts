@@ -1,6 +1,10 @@
 import { Model, DataTypes } from 'sequelize';
 import sequelize from 'src/database/sequelize';
 
+export enum BikeStatus {
+  AVAILABLE = 'available',
+  UNAVAILABLE = 'unavailable',
+}
 export default class Bike extends Model {
   public id!: number;
   public model!: string;
@@ -49,7 +53,7 @@ Bike.init({
 
 Bike.initialise = function (models) {
   Bike.belongsTo(models.User, {
-    foreignKey: 'userId',
+    foreignKey: 'creatorId',
     as: 'creator'
   });
 };

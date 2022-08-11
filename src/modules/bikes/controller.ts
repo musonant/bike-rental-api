@@ -1,8 +1,5 @@
-import User from 'src/modules/user/model';
-import models from 'src/modules/models';
+import Bike, { BikeStatus } from './model';
 import response from 'src/http/response';
-import UserRole from '../roles/userRole/model';
-import Bike from './model';
 
 export const getAllBykes = async (req, res) => {
   const bikes = await Bike.findAll();
@@ -11,7 +8,11 @@ export const getAllBykes = async (req, res) => {
 }
 
 export const createBike = async (req, res) => {
-  const newBike = await Bike.create(req.body);
+  const newBike = await Bike.create({
+    ...req.body,
+    creatorId: req.decoded.id,
+    status: BikeStatus.AVAILABLE
+  });
 
   return response.success(res, newBike);
 }

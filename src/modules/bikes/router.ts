@@ -20,6 +20,7 @@ userRouter.get('/:bikeId',
 
 userRouter.put('/:bikeId',
   verifyToken,
+  verifyManager,
   wrapAsync(editBike));
 
 export default userRouter;
