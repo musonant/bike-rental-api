@@ -1,5 +1,6 @@
 import { Model, DataTypes } from 'sequelize';
 import sequelize from 'src/database/sequelize';
+import Role from '../model';
 
 /**
  * UserRoleModel
@@ -8,6 +9,7 @@ import sequelize from 'src/database/sequelize';
 export default class UserRole extends Model {
   public roleId!: number;
   public userId!: string;
+  public role: Role;
 
   public static initialise: (models: any) => void;
 }
@@ -22,7 +24,7 @@ UserRole.init({
     type: DataTypes.INTEGER
   }
 }, {
-  tableName: 'user_role',
+  tableName: 'userRole',
   timestamps: false,
   sequelize
 });
@@ -35,4 +37,9 @@ UserRole.removeAttribute('id');
  * @param {Object} models - sequelize moodels
  * @returns {void} void
  */
-UserRole.initialise = () => {};
+UserRole.initialise = (models) => {
+  UserRole.belongsTo(models.Role, {
+    foreignKey: 'roleId',
+    as: 'role'
+  });
+};

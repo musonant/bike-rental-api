@@ -6,7 +6,7 @@ import UserRole from './roles/userRole/model';
 const db = {
   User: User,
   Role: Role,
-  UserRole: UserRole,
+  UserRole: UserRole
 };
 
 User.initialise(db);

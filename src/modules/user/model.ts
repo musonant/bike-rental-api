@@ -2,6 +2,7 @@ import { Association, Model, DataTypes, Op } from 'sequelize';
 import sequelize from 'src/database/sequelize';
 import hashPassword from 'src/utils/hashPassword';
 import * as bcrypt from 'bcryptjs';
+import Role from '../roles/model';
 
 enum Status {
   VERIFIED = 'verified',
@@ -25,6 +26,10 @@ export default class User extends Model {
   public static hasCorrectPassword: (password, user) => boolean;
   public static createUser: (data) => Promise<User>;
   public static updateUser: (data) => Promise<User>;
+
+  // magic methods
+  public addRoles: (data: any) => Promise<any>;
+  public getRoles: () => Promise<Array<Role>>;
 }
 
 User.init({
@@ -86,7 +91,7 @@ User.initialise = function (models) {
     foreignKey: 'userId',
     otherKey: 'roleId',
     timestamps: false,
-    through: 'user_role',
+    through: 'userRole',
     as: 'roles'
   });
 };
