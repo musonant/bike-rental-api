@@ -1,6 +1,7 @@
 import models from 'src/modules/models';
 import { Roles } from 'src/modules/roles/model';
 import User from 'src/modules/user/model';
+import logger from 'src/utils/logger';
 
 const { Role } = models;
 
@@ -9,7 +10,7 @@ export const seedUsers = async () => {
     firstname: "John",
     lastname: "Doe",
     email: "rentalmanager@test.com",
-    password: "SuperPass@1234"
+    password: "$2a$10$6pljvl43.P4b05OKbCZkoupGFRl9BNCd/qinSQy3l/8EfSrUa6xgi"
   }
 
   const seedUser = await User.findOne({
@@ -23,6 +24,6 @@ export const seedUsers = async () => {
       attributes: ['id', 'name']
     });
     const userRole = await user.addRoles(managerRole);
-    console.log({ userRole });
+    logger.info({ userRole });
   }
 }

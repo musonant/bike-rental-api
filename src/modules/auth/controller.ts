@@ -6,6 +6,8 @@ import { ERROR_CODES } from 'src/constants/response';
 import generateToken from 'src/utils/generateToken';
 import UserRole from '../roles/userRole/model';
 import Role, { Roles } from '../roles/model';
+import logger from 'src/utils/logger';
+import hashPassword from 'src/utils/hashPassword';
 
 
 export const userSignup = async (req: Request, res: Response) => {
