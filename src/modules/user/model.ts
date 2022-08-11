@@ -1,4 +1,4 @@
-import { Association, Model, DataTypes, Op } from 'sequelize';
+import { Association, Model, DataTypes, Op, FindOptions } from 'sequelize';
 import sequelize from 'src/database/sequelize';
 import hashPassword from 'src/utils/hashPassword';
 import * as bcrypt from 'bcryptjs';
@@ -29,7 +29,7 @@ export default class User extends Model {
 
   // magic methods
   public addRoles: (data: any) => Promise<any>;
-  public getRoles: () => Promise<Array<Role>>;
+  public getRoles: (options?: FindOptions) => Promise<Array<Role>>;
 }
 
 User.init({

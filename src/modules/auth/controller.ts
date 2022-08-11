@@ -4,17 +4,28 @@ import { Response, Request } from 'express';
 import httpException from 'src/http/httpException';
 import { ERROR_CODES } from 'src/constants/response';
 import generateToken from 'src/utils/generateToken';
+import UserRole from '../roles/userRole/model';
+import Role, { Roles } from '../roles/model';
 
 
 export const userSignup = async (req: Request, res: Response) => {
   const newUser = await User.createUser(req.body);
+  const roles = await Role.findAll({ attributes: ['id', 'name']});
+  const userRole = roles.find(item => item.name === Roles.USER);
+  await UserRole.create({ userId: newUser.id, roleId: userRole.id });
 
-  return response.created(res, newUser);
+  const data = {
+    ...newUser.toJSON(),
+    roles: [roles.find(item => item.id === userRole.id)]
+  }
+
+  return response.created(res, data);
 };
 
 export const userLogin = async (req, res) => {
   const { email, password } = req.body;
   const user = await User.getByField('email', email);
+  const userRoles = await user.getRoles({ attributes: ['id', 'name'] });
 
   if (!user) {
     throw httpException.handle(ERROR_CODES.USR_07);
@@ -34,6 +45,10 @@ export const userLogin = async (req, res) => {
 
   const data = {
     ...userData,
+    roles: userRoles.map(item => ({
+      name: item.name,
+      id: item.id
+    })),
     token,
     expiresIn
   };
